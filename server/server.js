@@ -16,14 +16,13 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
     console.log('New user connected');
 
-    socket.emit('newMessage', {
-        from: 'johnnycash@example.com',
-        text: 'Hi there IRC people!',
-        createdAt: '123'
-    });
-
     socket.on('createMessage', (msg) => {
         console.log('createMessage', msg);
+        io.emit('newMessage', {
+            from: msg.from,
+            text: msg.text,
+            createdAt: new Date().getTime()
+        })
     });
 
 
